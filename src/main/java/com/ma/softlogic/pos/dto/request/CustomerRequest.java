@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @ToString(exclude = "password") // Exclut le mot de passe des logs
 public class CustomerRequest {
 
+
     @NotBlank(message = "Le nom est obligatoire")
     @Size(min = 2, max = 50, message = "Le nom doit contenir entre 2 et 50 caractères")
     @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Le nom contient des caractères invalides")
