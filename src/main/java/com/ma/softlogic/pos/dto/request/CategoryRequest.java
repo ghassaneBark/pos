@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CategoryRequest {
+
     @NotBlank(message = "Category name is required")
     private String name;
     private String imageUrl;
