@@ -10,7 +10,8 @@
 	</parent>
 	<groupId>ma.ma.softlogic</groupId>
 	<artifactId>pos</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>  <!-- Remplacez SNAPSHOT -->
+	<packaging>jar</packaging>
 	<name>pos</name>
 	<description>projet pos</description>
 	<url/>
@@ -31,6 +32,14 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok.version>1.18.30</lombok.version>
 	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/ghassaneBark/pos_artifacts</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -80,6 +89,7 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
+
 
 	<build>
 		<plugins>
