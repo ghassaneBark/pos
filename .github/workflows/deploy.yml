@@ -30,12 +30,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: deployer
           key: ${{ secrets.SERVER_SSH_KEY }}
-          env:
-            SUDO_PWD: ${{ secrets.SUDO_PASSWORD }}
           script: |
-            echo "$SUDO_PWD" | sudo -S rm -rf /opt/pos/pos.jar
-            echo "$SUDO_PWD" | sudo -S mkdir -p /opt/pos
-            echo "$SUDO_PWD" | sudo -S chown deployer:deployer /opt/pos
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S rm -rf /opt/pos/pos.jar
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S mkdir -p /opt/pos
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S chown deployer:deployer /opt/pos
 
       - name: Upload JAR file
         uses: appleboy/scp-action@v1
@@ -53,12 +51,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: deployer
           key: ${{ secrets.SERVER_SSH_KEY }}
-          env:
-            SUDO_PWD: ${{ secrets.SUDO_PASSWORD }}
           script: |
-            echo "$SUDO_PWD" | sudo -S mv /opt/pos/pos-*.jar /opt/pos/pos.jar
-            echo "$SUDO_PWD" | sudo -S chown deployer:deployer /opt/pos/pos.jar
-            echo "$SUDO_PWD" | sudo -S chmod 500 /opt/pos/pos.jar
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S mv /opt/pos/pos-*.jar /opt/pos/pos.jar
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S chown deployer:deployer /opt/pos/pos.jar
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S chmod 500 /opt/pos/pos.jar
             ls -la /opt/pos/
 
       - name: Restart service
@@ -67,10 +63,8 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: deployer
           key: ${{ secrets.SERVER_SSH_KEY }}
-          env:
-            SUDO_PWD: ${{ secrets.SUDO_PASSWORD }}
           script: |
-            echo "$SUDO_PWD" | sudo -S systemctl daemon-reload
-            echo "$SUDO_PWD" | sudo -S systemctl restart pos.service
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl daemon-reload
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl restart pos.service
             sleep 5
-            echo "$SUDO_PWD" | sudo -S systemctl status pos.service
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S systemctl status pos.service
