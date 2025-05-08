@@ -19,6 +19,21 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      - name: Verify JAR file
+        run: |
+          ls -lh target/pos-*.jar
+          file target/pos-*.jar
+
+      - name: Clean remote directory
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: deployer
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo rm -rf /opt/pos/pos.jar /opt/pos/pos-*.jar
+            mkdir -p /opt/pos
+
       - name: Deploy JAR to Server
         uses: appleboy/scp-action@v1
         with:
@@ -26,8 +41,19 @@ jobs:
           username: deployer
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "target/pos-*.jar"
-          target: "/opt/pos/pos.jar"
-          rm: true
+          target: "/opt/pos/"
+          strip_components: 1
+
+      - name: Rename JAR file
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: deployer
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo mv /opt/pos/pos-*.jar /opt/pos/pos.jar
+            sudo chown deployer:deployer /opt/pos/pos.jar
+            sudo chmod 500 /opt/pos/pos.jar
 
       - name: Restart POS Service
         uses: appleboy/ssh-action@v1
@@ -36,4 +62,5 @@ jobs:
           username: deployer
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            sudo systemctl daemon-reload
             sudo systemctl restart pos.service
