@@ -7,16 +7,26 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Embeddable
+@Entity
+@Table(name = "user_roles")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-public class UserRole implements Serializable {
-    @Column(name = "user_id")
-    private UUID userId;
+@Builder
+public class UserRole {
 
-    @Column(name = "role_id")
-    private Integer roleId;
+    @EmbeddedId
+    private UserRoleId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
+

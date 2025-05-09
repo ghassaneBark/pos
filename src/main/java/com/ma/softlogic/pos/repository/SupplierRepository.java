@@ -23,7 +23,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, UUID> {
     @Query("SELECT s.status, COUNT(s) FROM Supplier s GROUP BY s.status")
     List<Object[]> countByStatus();
 
-    // Trouver les fournisseurs d'un produit
-    @Query("SELECT s FROM Supplier s JOIN s.products p WHERE p.id = :productId")
-    Page<Supplier> findByProductId(@Param("productId") UUID productId, Pageable pageable);
+//    // Trouver les fournisseurs d'un produit
+//    @Query("SELECT s FROM Supplier s JOIN s.products p WHERE p.id = :productId")
+//    Page<Supplier> findByProductId(@Param("productId") UUID productId, Pageable pageable);
 }

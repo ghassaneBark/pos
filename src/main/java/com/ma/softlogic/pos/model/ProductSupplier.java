@@ -7,19 +7,28 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Embeddable
+@Entity
+@Table(name = "product_supplier")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-public class ProductSupplier implements Serializable {
-    @Column(name = "product_id")
-    private UUID productId;
+@Builder
+public class ProductSupplier {
 
-    @Column(name = "supplier_id")
-    private UUID supplierId;
+    @EmbeddedId
+    private ProductSupplierId id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("productId")
+    @JoinColumn(name = "product_id")
+    private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("supplierId")
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
+    // autres colonnes si besoin, comme :
+    // private LocalDateTime assignedAt;
 }

@@ -33,6 +33,9 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
+   // @Column(columnDefinition = "UUID DEFAULT random_uuid()")
+
+
     private UUID id;
 
     @Column(nullable = false, length = 100)
